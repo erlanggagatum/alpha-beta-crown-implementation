@@ -1,0 +1,25 @@
+# Example for using customized model and data loader.
+# Model and data loader defined in custom_model_data.py
+# python abcrown.py --config exp_configs/tutorial_examples/custom_fashion_mnist_data_squeezednet_model.yaml
+general:
+  seed: 100  # Random seed.
+model:
+  # Model is defined as simple_conv_model() in custom_model_data.py. The function simple_conv_model() will be called with arguments in_channel=3, out_dim=10.
+  name: Customized("custom_model_data", "squeezenet_fashion_mnist")
+  # Path to model checkpoint.
+  # path: models/fashion_mnist_squeezenet/squeezenet_fashion_mnist2.pth
+  path: models/fashion_mnist_squeezenet/squeezenet_fashion_mnist2.pth
+data:
+  # Use the fashion_mnist_loader() loader in "custom_model_data.py".
+  dataset: Customized("custom_model_data", "fashion_mnist_loader")
+specification:
+  epsilon: 0.5 # 2./255.
+attack:
+  pgd_restarts: 10
+solver:
+  batch_size: 64
+  beta-crown:
+    iteration: 10
+bab:
+  # timeout: 30
+  timeout: 30
